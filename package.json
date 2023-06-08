@@ -1,0 +1,19 @@
+{
+  "name": "aiselfdrivingcar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaptainJRoy/AISelfDrivingCar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CaptainJRoy/AISelfDrivingCar/issues"
+  },
+  "homepage": "https://github.com/CaptainJRoy/AISelfDrivingCar#readme"
+}
