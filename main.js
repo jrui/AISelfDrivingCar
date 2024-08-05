@@ -13,9 +13,9 @@ window.addEventListener('load', function() {
     const LANE_COUNT = 4;
     const road = new Road(canvas.width / 2, canvas.width * 0.9, LANE_COUNT);
     
-    const N = 800;
+    const N = 1000;
     const cars = generateCars(N);
-    const MUTATION_RATE = 0.1;
+    const MUTATION_RATE = 0.15;
     let bestCar = cars[0];
     if (localStorage.getItem("bestBrain")) {
         for (let i = 0; i < cars.length; i++) {
@@ -27,34 +27,25 @@ window.addEventListener('load', function() {
     }
 
     
-    let traffic = [
-        new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(0), -900, 30, 50, "DUMMY", 2),
-        new Car(road.getLaneCenter(2), -900, 30, 50, "DUMMY", 2),
-    ];
-    let nextCarY = -1100;
+    let traffic = [];
+    let nextCarY = -400;
     function addNewCars() {
-        let carsToAdd = LANE_COUNT - 1;
-        let carPositions = []
+        let carPositions = [...Array(LANE_COUNT).keys()]
 
-        while (carsToAdd > 0) {
-            let carPosition = Math.floor(Math.random() * LANE_COUNT);
-            if (!carPositions.includes(carPosition)) {
-                carPositions.push(carPosition);
-                traffic.push(new Car(road.getLaneCenter(carPosition), nextCarY, 30, 50, "DUMMY", 2));
-                carsToAdd--;
+        let index = carPositions.indexOf(Math.floor(Math.random() * LANE_COUNT))
+        carPositions.splice(index, 1)
+        carPositions.forEach(carPosition => {
+            traffic.push(new Car(road.getLaneCenter(carPosition), nextCarY, 30, 50, "DUMMY", 2));
+
+            if (traffic.length >= 30) {
+                for (let i = 0; i < LANE_COUNT - 1; i++) traffic.pop();
             }
-        }
+        })
         nextCarY -= 400;
 
-        setTimeout(addNewCars, 3800);
+        setTimeout(addNewCars, 800);
         console.log('Score: ' + Math.abs(bestCar.y).toFixed(2))
+        console.log('Current rendered dummy cars: ' + traffic.length)
     }
     addNewCars();
     
@@ -106,12 +97,14 @@ window.addEventListener('load', function() {
         for(let i = 0; i < traffic.length; i++) {
             traffic[i].draw(ctx, "red");
         }
+
         ctx.globalAlpha = 0.2;
         for (let i = 0; i < cars.length; i++) {
             cars[i].draw(ctx, "blue");
         }
+
         ctx.globalAlpha = 1;
-        bestCar.draw(ctx, "blue", true);
+        bestCar.draw(ctx, "darkblue", true);
     
         ctx.restore();
 

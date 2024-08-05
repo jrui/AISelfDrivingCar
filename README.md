@@ -1,6 +1,4 @@
 # AISelfDrivingCar
-__Available on:__ https://captainjroy.github.io/AISelfDrivingCar/
-
 Barebones (no library) self improving NN for car collision avoidance. Each vehicle has 5 sensors that measure distance from objects. A distance vector is given for the NN to learn and 4 possible commands / instructions were created for controlling the vehicle.
 
 It is possible to control the vehicle to:
